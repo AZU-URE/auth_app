@@ -6,9 +6,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import toast, { Toaster } from "react-hot-toast";
 export default function loginPage() {
+  const [isLoading, setIsLoading] = useState(false);
   const route = useRouter();
   async function login() {
     try {
+      setIsLoading(true);
       const response = await axios.post("api/users/login", user);
       // console.log("hii");
       if (response?.data?.error) {
@@ -22,6 +24,8 @@ export default function loginPage() {
     } catch (error: any) {
       // console.log("helllo");
       toast.error(error.message);
+    } finally {
+      setIsLoading(false);
     }
   }
   const [user, setUser] = useState({
@@ -30,7 +34,9 @@ export default function loginPage() {
   });
   return (
     <div className="flex flex-1 flex-col items-center justify-evenly h-screen">
-      <h1 className="text-4xl font-bold mt-10">Login</h1>
+      <h1 className="text-4xl font-bold mt-10">
+        {isLoading ? "Loading" : "Login"}
+      </h1>
       <div className="flex-col space-y-8 items-center flex">
         <div className="flex m-4">
           <label htmlFor="email"></label>
