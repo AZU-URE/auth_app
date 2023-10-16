@@ -20,7 +20,8 @@ export default function signUpPage() {
       setMessage(response?.data?.message);
       console.log("Signup succssful", response);
       setTimeout(() => {
-        route.push("/login");
+        setMessage("Verify Your Email");
+        // route.push("/login");
       }, 2000);
     } catch (error: any) {
       setMessage(error?.response?.data?.error);

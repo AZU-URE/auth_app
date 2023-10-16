@@ -13,6 +13,9 @@ export async function POST(request: NextRequest) {
     console.log("email: ", email);
     const user = await User.findOne({ email });
     if (user) {
+      if (user.isVerified === false) {
+        return NextResponse.json({ error: "Email Not Verified" });
+      }
       const validPass = await bcryptjs.compare(password, user.password);
       if (!validPass) {
         return NextResponse.json({ error: "Invalid Pass" });
